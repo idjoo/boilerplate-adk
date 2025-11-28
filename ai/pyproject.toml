@@ -1,0 +1,39 @@
+[project]
+name = "sample"           # TODO: agent name
+description = ""
+requires-python = ">=3.13"
+version = "0.0.1"
+dependencies = [
+    "a2a-sdk>=0.3.19",
+    "google-adk>=1.19.0",
+    "uvicorn>=0.38.0",
+]
+
+[project.scripts]
+app = "src:server"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+  "alembic>=1.16.4",
+  "coverage>=7.6.10",
+  "pre-commit>=4.1.0",
+  "pytest-asyncio>=0.25.3",
+  "pytest-cov>=6.0.0",
+  "ruff>=0.9.4",
+]
+
+[tool.uv]
+package = true
+
+[tool.ruff]
+line-length = 80
+
+[tool.ruff.lint]
+extend-select = ["RUF", "F", "I", "UP", "FAST", "ASYNC"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]

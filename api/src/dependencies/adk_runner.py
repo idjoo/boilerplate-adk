@@ -1,4 +1,5 @@
 from typing import Annotated
+from urllib.parse import urljoin
 
 from fastapi import Depends
 from google.adk.agents.remote_a2a_agent import (
@@ -18,9 +19,7 @@ async def aget_adk_runner(
         app_name=config.service,
         agent=RemoteA2aAgent(
             name="root_agent",
-            agent_card=(
-                f"http://localhost:8081/{AGENT_CARD_WELL_KNOWN_PATH}"
-            ),
+            agent_card=(urljoin(config.ai.url, AGENT_CARD_WELL_KNOWN_PATH)),
         ),
         session_service=session_service,
     )

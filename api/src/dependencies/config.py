@@ -71,6 +71,10 @@ class Database(BaseModel):
     name: str = "database"
 
 
+class Agent(BaseModel):
+    url: str
+
+
 class BaseConfig(Settings):
     service: str
     host: str = "0.0.0.0"
@@ -78,6 +82,7 @@ class BaseConfig(Settings):
     environment: Environment = Environment.DEVELOPMENT
     logging: Logging = Logging()
     database: Database = Database()
+    agent: Agent
 
 
 async def aget_config() -> BaseConfig:

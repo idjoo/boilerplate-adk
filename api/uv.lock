@@ -1966,7 +1966,7 @@ wheels = [
 ]
 
 [[package]]
-name = "service"
+name = "sample-api"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [

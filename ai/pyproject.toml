@@ -1,5 +1,5 @@
 [project]
-name = "sample"           # TODO: agent name
+name = "sample-agent"
 description = ""
 requires-python = ">=3.13"
 version = "0.0.1"

@@ -30,16 +30,16 @@ config: Config = get_config()
 logger: Logger = get_logger()
 
 
-title = "Service Name - Swagger UI"  # TODO: service name
+title = "Sample API - Swagger UI"
 
 
 app = FastAPI(
     lifespan=lifespan,
     title=title,
     contact={
-        "name": "Author - Devoteam",  # TODO: author name
-        "url": "https://example.com",  # TODO: domain name
-        "email": "author@example.com",  # TODO: author email
+        "name": "Author - Devoteam",
+        "url": "https://devoteam.com",
+        "email": "adrianus.vian.habirowo@devoteam.com",
     },
     docs_url=None,
 )

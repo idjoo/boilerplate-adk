@@ -1,5 +1,5 @@
 substitutions:
-  _SERVICE: sample-agent # TODO: service name
+  _SERVICE: sample-agent
   _REGION: asia-southeast2
   _REGISTRY: docker
   _IMAGE: ${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY}/${_SERVICE}

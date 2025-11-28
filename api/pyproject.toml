@@ -1,5 +1,5 @@
 [project]
-name = "service" # TODO: service name
+name = "sample-api"
 description = ""
 requires-python = ">=3.13"
 version = "0.0.1"

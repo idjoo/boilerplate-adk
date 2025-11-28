@@ -19,7 +19,7 @@ async def aget_adk_runner(
         app_name=config.service,
         agent=RemoteA2aAgent(
             name="root_agent",
-            agent_card=(urljoin(config.ai.url, AGENT_CARD_WELL_KNOWN_PATH)),
+            agent_card=(urljoin(config.agent.url, AGENT_CARD_WELL_KNOWN_PATH)),
         ),
         session_service=session_service,
     )

@@ -1,2 +1,2 @@
-from .agent import app as app
-from .agent import server as server
+from .main import app as app
+from .main import server as server

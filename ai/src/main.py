@@ -2,12 +2,20 @@ import uvicorn
 from google.adk.a2a.utils.agent_to_a2a import to_a2a
 
 from .agent import root_agent
+from src.config import get_config
 
-app = to_a2a(root_agent, host="0.0.0.0", port=8081)
+config = get_config()
+app = to_a2a(root_agent, host=config.host, port=config.port)
 
 
 # ===============
 # WSGI
 # ===============
 def server():
-    uvicorn.run(app="src:app", host="0.0.0.0", port=8081)
+    uvicorn.run(
+        app="src:app",
+        host=config.host,
+        port=config.port,
+        log_level=config.logging.level.lower(),
+        reload=True if config.environment == Environment.DEV else False,
+    )

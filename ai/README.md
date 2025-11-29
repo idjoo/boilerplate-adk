@@ -17,7 +17,7 @@ uv run app
 ## Project Structure
 
 ```
- ai/
+ .
  ├── README.md
  ├── src/
  │   ├── __init__.py

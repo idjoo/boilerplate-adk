@@ -1,7 +1,7 @@
 import uvicorn
 from google.adk.a2a.utils.agent_to_a2a import to_a2a
 
-from src.config import get_config
+from src.config import Environment, get_config
 
 from .agent import root_agent
 
@@ -20,3 +20,4 @@ def server():
         log_level=config.logging.level.lower(),
         reload=True if config.environment == Environment.DEV else False,
     )
+

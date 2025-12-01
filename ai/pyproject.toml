@@ -5,7 +5,7 @@ requires-python = ">=3.13"
 version = "0.0.1"
 dependencies = [
     "a2a-sdk>=0.3.19",
-    "google-adk>=1.19.0",
+    "google-adk[a2a]>=1.19.0",
     "uvicorn>=0.38.0",
 ]
 

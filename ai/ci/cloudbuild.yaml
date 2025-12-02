@@ -1,27 +1,15 @@
 substitutions:
-  _SERVICE: sample-agent
-  _REGION: asia-southeast2
-  _REGISTRY: docker
-  _IMAGE: ${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REGISTRY}/${_SERVICE}
+  _REGION: us-central1
 
 steps:
-  - name: gcr.io/kaniko-project/executor
-    args:
-      - --context=.
-      - --dockerfile=ci/Dockerfile
-      - --destination=${_IMAGE}:latest
-      - --destination=${_IMAGE}:${BUILD_ID}
-      - --cache=true
-      - --cache-ttl=24h
-
-  - name: gcr.io/cloud-builders/gcloud
+  - name: ghcr.io/astral-sh/uv:python3.13-bookworm-slim
+    entrypoint: uv
     args:
       - run
-      - deploy
-      - ${_SERVICE}
+      - scripts/deploy.py
       - --project=${PROJECT_ID}
       - --region=${_REGION}
-      - --image=${_IMAGE}:${BUILD_ID}
+      - --bucket=${PROJECT_ID}_cloudbuild
 
 options:
   dynamicSubstitutions: true

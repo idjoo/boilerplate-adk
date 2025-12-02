@@ -1,4 +1,4 @@
-from google.adk.agents.llm_agent import Agent
+from google.adk import Agent
 
 root_agent = Agent(
     name="root_agent",

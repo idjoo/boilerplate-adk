@@ -18,11 +18,12 @@ from src.schemas import Response
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    from src.dependencies import database, logger, tracer
+    from src.dependencies import agent, database, logger, tracer
 
     await database.init()
     await logger.init()
     await tracer.init()
+    await agent.init()
     yield
 
 

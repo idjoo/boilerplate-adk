@@ -72,7 +72,9 @@ class Database(BaseModel):
 
 
 class Agent(BaseModel):
-    url: str
+    project: str
+    location: str
+    resource: str
 
 
 class BaseConfig(Settings):

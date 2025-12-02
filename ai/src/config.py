@@ -59,9 +59,6 @@ class Logging(BaseModel):
 
 
 class Config(Settings):
-    service: str
-    host: str = "0.0.0.0"
-    port: int = 8081
     environment: Environment = Environment.DEV
     logging: Logging = Logging()
 

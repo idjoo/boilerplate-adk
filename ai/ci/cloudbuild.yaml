@@ -1,7 +1,19 @@
 substitutions:
+  _SERVICE: sample
   _REGION: us-central1
 
 steps:
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: gcloud
+    args:
+      - secrets
+      - versions
+      - access
+      - latest
+      - --project=${PROJECT_ID}
+      - --secret=${_SERVICE}-config
+      - --out-file=config.yaml
+
   - name: ghcr.io/astral-sh/uv:python3.13-bookworm-slim
     entrypoint: uv
     args:

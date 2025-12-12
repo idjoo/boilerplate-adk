@@ -48,6 +48,7 @@ def get_agent(config: Config, kwargs: dict):
 
 def main() -> None:
     args = get_args()
+    config = get_config()
 
     vertexai.init(
         project=args.project,
@@ -57,7 +58,8 @@ def main() -> None:
         else f"gs://{args.bucket}",
     )
 
-    config = get_config()
+    cpu = 1
+    memory = 1
     kwargs = {
         "agent_engine": root_agent,
         "display_name": config.name,
@@ -68,6 +70,10 @@ def main() -> None:
             "GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY": "true",
             "OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT": "true",
         },
+        "min_instances": 0,
+        "max_instances": 10,
+        "resource_limits": {"cpu": f"{cpu}", "memory": f"{memory}Gi"},
+        "container_concurrency": 2 * cpu + 1,
     }
 
     agent = get_agent(config, kwargs)

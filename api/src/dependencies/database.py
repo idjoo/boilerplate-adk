@@ -16,6 +16,9 @@ config: Config = get_config()
 logger: Logger = get_logger()
 
 
+_engine: AsyncEngine | None = None
+
+
 async def create_engine() -> AsyncEngine:
     url = config.database.url
     if not url:
@@ -41,9 +44,29 @@ async def init():
         command.upgrade, config=AlembicConfig("db/alembic.ini"), revision="head"
     )
 
+    # Create and store a single AsyncEngine instance for the lifetime of the app
+    global _engine
+    if _engine is None:
+        logger.info("creating global async database engine")
+        _engine = await create_engine()
+
+
+async def get_engine() -> AsyncEngine:
+    """
+    Return the global AsyncEngine instance.
+    Falls back to lazy initialization if init() was not awaited for some reason.
+    """
+    global _engine
+    if _engine is None:
+        logger.warning(
+            "database engine not initialized in init(), creating lazily"
+        )
+        _engine = await create_engine()
+    return _engine
+
 
 async def aget_session(
-    engine: Annotated[AsyncEngine, Depends(create_engine)],
+    engine: Annotated[AsyncEngine, Depends(get_engine)],
 ) -> AsyncSession:
     logger.info("creating database session")
 

@@ -8,10 +8,22 @@ export GOOGLE_CLOUD_PROJECT=lv-playground-genai
 export GOOGLE_CLOUD_LOCATION=global
 ```
 
-## Running the Agent
+## Running the Agent as A2A
 
 ```bash
 uv run app
+```
+
+## Running the Agent as ADK
+
+```bash
+uv run adk web
+```
+
+## Deployment
+
+```bash
+gcloud builds submit --config ci/cloud-build.yaml .
 ```
 
 ## Project Structure

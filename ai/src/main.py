@@ -38,7 +38,8 @@ async def get_agent_card() -> AgentCard:
     return await agent_card_builder.build()
 
 
-app = to_a2a(root_agent, agent_card=asyncio.run(get_agent_card()))
+loop = asyncio.get_running_loop()
+app = to_a2a(root_agent, agent_card=loop.run_in_executor(None, get_agent_card))
 
 
 # ===============

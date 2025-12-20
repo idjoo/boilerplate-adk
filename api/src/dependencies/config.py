@@ -45,6 +45,7 @@ class Settings(BaseSettings):
 
 
 class Environment(StrEnum):
+    LOCAL = auto()
     DEV = auto()
     PRD = auto()
 

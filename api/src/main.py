@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 
 import uvicorn
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
@@ -13,7 +13,6 @@ from src.dependencies.config import Config, get_config
 from src.dependencies.logger import Logger, get_logger
 from src.exceptions import BaseError
 from src.routers import ChatRouter, HealthRouter
-from src.schemas import Response
 
 
 @asynccontextmanager
@@ -21,9 +20,10 @@ async def lifespan(app: FastAPI):
     from src.dependencies import database, logger, tracer
 
     await database.init()
-    await logger.init()
     await tracer.init()
+    await logger.init()
     yield
+    await database.close()
 
 
 config: Config = get_config()
@@ -105,28 +105,20 @@ async def validation_exception_handler(request, exception):
 # ===============
 # Base Routers
 # ===============
-@app.get("/docs", include_in_schema=False)
-async def swagger_ui_html():
-    if config.environment == Environment.PRD:
-        return Response(
-            status=status.HTTP_404_NOT_FOUND, message="404 Not Found"
+if config.environment != Environment.PRD:
+    """Enable docs only for Development environment"""
+
+    @app.get("/docs", include_in_schema=False)
+    async def swagger_ui_html():
+        return get_swagger_ui_html(
+            openapi_url="/openapi.json",
+            title=title,
+            swagger_ui_parameters=app.swagger_ui_parameters,
         )
 
-    return get_swagger_ui_html(
-        openapi_url="/openapi.json",
-        title=title,
-        swagger_ui_parameters=app.swagger_ui_parameters,
-    )
-
-
-@app.get("/", include_in_schema=False)
-async def home():
-    if config.environment == Environment.PRD:
-        return Response(
-            status=status.HTTP_404_NOT_FOUND, message="404 Not Found"
-        )
-
-    return RedirectResponse("/docs")
+    @app.get("/", include_in_schema=False)
+    async def home():
+        return RedirectResponse("/docs")
 
 
 # ===============
@@ -138,5 +130,5 @@ def server():
         host=config.host,
         port=config.port,
         log_level=config.logging.level.lower(),
-        reload=True if config.environment == Environment.DEV else False,
+        reload=True if config.environment == Environment.LOCAL else False,
     )

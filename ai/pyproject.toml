@@ -1,32 +1,39 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [ "hatchling" ]
+
 [project]
 name = "sample-agent"
+version = "0.0.1"
 description = ""
 requires-python = ">=3.13"
-version = "0.0.1"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
 dependencies = [
-    "a2a-sdk>=0.3.22",
-    "google-adk[a2a,eval]>=1.21.0",
-    "google-cloud-aiplatform[adk,agent-engines]>=1.132.0",
-    "httpx>=0.28.1",
-    "uvicorn>=0.38.0",
+  "a2a-sdk>=0.3.22",
+  "google-adk[a2a,eval]>=1.21",
+  "google-cloud-aiplatform[adk,agent-engines]>=1.132",
+  "httpx>=0.28.1",
+  "uvicorn>=0.38",
 ]
 
-[project.scripts]
-app = "src:server"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+scripts.app = "src:server"
 
 [dependency-groups]
 dev = [
   "alembic>=1.16.4",
   "coverage>=7.6.10",
-  "pre-commit>=4.1.0",
+  "pre-commit>=4.1",
   "pytest-asyncio>=0.25.3",
-  "pytest-cov>=6.0.0",
+  "pytest-cov>=6",
   "ruff>=0.9.4",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = [ "src" ]
 
 [tool.uv]
 package = true
@@ -34,8 +41,4 @@ package = true
 [tool.ruff]
 line-length = 80
 
-[tool.ruff.lint]
-extend-select = ["RUF", "F", "I", "UP", "FAST", "ASYNC"]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src"]
+lint.extend-select = [ "ASYNC", "F", "FAST", "I", "RUF", "UP" ]
